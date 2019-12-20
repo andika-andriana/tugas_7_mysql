@@ -1,0 +1,188 @@
+**Tugas 7**
+
+- Perhatikan tabel dibawah ini:
+
+    https://lh4.googleusercontent.com/jkl7vwdCTcN3QDjhvjPmyvvGl0ZRPtrcvBt4A-OcxV8K7ZMFpfyUhKm97vZ7pSVPT9KNjBK1S4tSp3jbNCa6EQDtmuj2pet5acyOGKmXV4u-ZXgDSnHr_0-WoH2b-AzmJ18OGUDQ
+
+1. Buatlah struktur tabel yang akan menampung data-data diatas (CREATE TABLE). Kali ini saya tidak akan membatasi nama tabel, nama kolom maupun tipe datanya. Silahkan teman-teman **berkreasi** sendiri.
+
+        MariaDB [tugas_7_mysql]> CREATE TABLE kecamatan(
+            -> nama_kota VARCHAR(20),
+            -> kecamatan TINYINT NOT NULL,
+            -> kelurahan SMALLINT NOT NULL,
+            -> luas_wilayah FLOAT NOT NULL,
+            -> jumlah_penduduk INT
+            -> );
+        Query OK, 0 rows affected (0.519 sec)
+        
+        MariaDB [tugas_7_mysql]> DESC kecamatan;
+        +-----------------+-------------+------+-----+---------+-------+
+        | Field           | Type        | Null | Key | Default | Extra |
+        +-----------------+-------------+------+-----+---------+-------+
+        | nama_kota       | varchar(20) | YES  |     | NULL    |       |
+        | kecamatan       | tinyint(4)  | NO   |     | NULL    |       |
+        | kelurahan       | smallint(6) | NO   |     | NULL    |       |
+        | luas_wilayah    | float       | NO   |     | NULL    |       |
+        | jumlah_penduduk | int(11)     | YES  |     | NULL    |       |
+        +-----------------+-------------+------+-----+---------+-------+
+        5 rows in set (0.088 sec)
+
+2. Input 8 kota pertama menggunakan query INSERT ... VALUES, bisa menginputnya satu per satu (satu query INSERT untuk setiap baris), atau sekaligus dalam satu query INSERT.
+
+        MariaDB [tugas_7_mysql]> INSERT INTO kecamatan VALUES
+            -> ("Jakarta",44,267,664.01,9988495),
+            -> ("Surabaya",31,154,350.54,2805906),
+            -> ("Medan", 21,151,265.00,2465496),
+            -> ("Bekasi",12,56,206.61,2381053),
+            -> ("Bandung",30,151,167.67,2339463),
+            -> ("Makassar",14,143,199.26,1651146),
+            -> ("Depok", 11,63,200.29,1631951),
+            -> ("Semarang",16,177,373.38,1621384);
+        Query OK, 8 rows affected (0.065 sec)
+        Records: 8  Duplicates: 0  Warnings: 0
+        
+        MariaDB [tugas_7_mysql]> SELECT * FROM kecamatan;
+        +-----------+-----------+-----------+--------------+-----------------+
+        | nama_kota | kecamatan | kelurahan | luas_wilayah | jumlah_penduduk |
+        +-----------+-----------+-----------+--------------+-----------------+
+        | Jakarta   |        44 |       267 |       664.01 |         9988495 |
+        | Surabaya  |        31 |       154 |       350.54 |         2805906 |
+        | Medan     |        21 |       151 |          265 |         2465496 |
+        | Bekasi    |        12 |        56 |       206.61 |         2381053 |
+        | Bandung   |        30 |       151 |       167.67 |         2339463 |
+        | Makassar  |        14 |       143 |       199.26 |         1651146 |
+        | Depok     |        11 |        63 |       200.29 |         1631951 |
+        | Semarang  |        16 |       177 |       373.38 |         1621384 |
+        +-----------+-----------+-----------+--------------+-----------------+
+        8 rows in set (0.045 sec)
+
+3. Input 2 kota terakhir menggunakan query INSERT ... SET
+
+        MariaDB [tugas_7_mysql]> INSERT INTO kecamatan SET
+            -> nama_kota = "Tangerang",
+            -> kecamatan = 13,
+            -> kelurahan = 104,
+            -> luas_wilayah = 154.92,
+            -> jumlah_penduduk = 1566190;
+        Query OK, 1 row affected (0.079 sec)
+        
+        MariaDB [tugas_7_mysql]> INSERT INTO kecamatan SET
+            -> nama_kota = "Palembang",
+            -> kecamatan = 14,
+            -> kelurahan = 107,
+            -> luas_wilayah = 396.22,
+            -> jumlah_penduduk = 1548064;
+        Query OK, 1 row affected (0.306 sec)
+        
+        MariaDB [tugas_7_mysql]> SELECT * FROM kecamatan;
+        +-----------+-----------+-----------+--------------+-----------------+
+        | nama_kota | kecamatan | kelurahan | luas_wilayah | jumlah_penduduk |
+        +-----------+-----------+-----------+--------------+-----------------+
+        | Jakarta   |        44 |       267 |       664.01 |         9988495 |
+        | Surabaya  |        31 |       154 |       350.54 |         2805906 |
+        | Medan     |        21 |       151 |          265 |         2465496 |
+        | Bekasi    |        12 |        56 |       206.61 |         2381053 |
+        | Bandung   |        30 |       151 |       167.67 |         2339463 |
+        | Makassar  |        14 |       143 |       199.26 |         1651146 |
+        | Depok     |        11 |        63 |       200.29 |         1631951 |
+        | Semarang  |        16 |       177 |       373.38 |         1621384 |
+        | Tangerang |        13 |       104 |       154.92 |         1566190 |
+        | Palembang |        14 |       107 |       396.22 |         1548064 |
+        +-----------+-----------+-----------+--------------+-----------------+
+        10 rows in set (0.000 sec)
+
+4. Buat tabel kedua dengan menggunakan struktur yang sama dengan tabel pertama. Artinya, akan ada 2 tabel: Tabel pertama yang sudah berisi data (yang kita buat berdasarkan soal 1 - 3), dan tabel kedua yang belum berisi data. Struktur tabel pertama dan kedua ini sama persis, dimana sama-sama terdiri dari 5 kolom.
+
+        MariaDB [tugas_7_mysql]> CREATE TABLE kecamatan_2 LIKE kecamatan;
+        Query OK, 0 rows affected (0.522 sec)
+        
+        MariaDB [tugas_7_mysql]> DESC kecamatan;
+        +-----------------+-------------+------+-----+---------+-------+
+        | Field           | Type        | Null | Key | Default | Extra |
+        +-----------------+-------------+------+-----+---------+-------+
+        | nama_kota       | varchar(20) | YES  |     | NULL    |       |
+        | kecamatan       | tinyint(4)  | NO   |     | NULL    |       |
+        | kelurahan       | smallint(6) | NO   |     | NULL    |       |
+        | luas_wilayah    | float       | NO   |     | NULL    |       |
+        | jumlah_penduduk | int(11)     | YES  |     | NULL    |       |
+        +-----------------+-------------+------+-----+---------+-------+
+        5 rows in set (0.085 sec)
+        
+        MariaDB [tugas_7_mysql]> DESC kecamatan_2;
+        +-----------------+-------------+------+-----+---------+-------+
+        | Field           | Type        | Null | Key | Default | Extra |
+        +-----------------+-------------+------+-----+---------+-------+
+        | nama_kota       | varchar(20) | YES  |     | NULL    |       |
+        | kecamatan       | tinyint(4)  | NO   |     | NULL    |       |
+        | kelurahan       | smallint(6) | NO   |     | NULL    |       |
+        | luas_wilayah    | float       | NO   |     | NULL    |       |
+        | jumlah_penduduk | int(11)     | YES  |     | NULL    |       |
+        +-----------------+-------------+------+-----+---------+-------+
+        5 rows in set (0.028 sec)
+        
+        MariaDB [tugas_7_mysql]> SELECT * FROM kecamatan_2;
+        Empty set (0.000 sec)
+
+5. Ubah tabel kedua, hapus kolom Kecamatan, Kelurahan dan Luas Wilayah. Sehingga tabel kedua hanya berisi 2 kolom saja: Nama Kota dan Jumlah Penduduk.
+
+        MariaDB [tugas_7_mysql]> ALTER TABLE kecamatan_2
+            -> DROP COLUMN kecamatan,
+            -> DROP COLUMN kelurahan,
+            -> DROP COLUMN luas_wilayah;
+        Query OK, 0 rows affected (0.187 sec)
+        Records: 0  Duplicates: 0  Warnings: 0
+        
+        MariaDB [tugas_7_mysql]> DESC kecamatan_2;
+        +-----------------+-------------+------+-----+---------+-------+
+        | Field           | Type        | Null | Key | Default | Extra |
+        +-----------------+-------------+------+-----+---------+-------+
+        | nama_kota       | varchar(20) | YES  |     | NULL    |       |
+        | jumlah_penduduk | int(11)     | YES  |     | NULL    |       |
+        +-----------------+-------------+------+-----+---------+-------+
+        2 rows in set (0.114 sec)
+
+6. Input tabel kedua dengan data yang diambil dari tabel pertama. Disini gunakan query INSERT ... SELECT. Perhatikan bahwa jumlah kolom di tabel kedua hanya tinggal 2 buah: Nama Kota dan Jumlah Penduduk. Struktur kolom ini sudah tidak sama dengan jumlah kolom dari tabel pertama. Hasil akhirnya dari query INSERT ... SELECT, tabel kedua akan berisi 10 nama kota beserta jumlah penduduk, seperti tampilan berikut:
+
+        +-----------+----------+
+        | kota      | penduduk |
+        +-----------+----------+
+        | Jakarta   | 9988495  |
+        | Surabaya  | 2805906  |
+        | Medan     | 2465469  |
+        | Bekasi    | 2381053  |
+        | Bandung   | 2339463  |
+        | Makassar  | 1651146  |
+        | Depok     | 1631951  |
+        | Semarang  | 1621384  |
+        | Tangerang | 1566190  |
+        | Palembang | 1548064  |
+        +-----------+----------+
+
+        MariaDB [tugas_7_mysql]> SELECT * FROM kecamatan_2;
+        Empty set (0.001 sec)
+        
+        MariaDB [tugas_7_mysql]> INSERT INTO kecamatan_2
+            -> (nama_kota,jumlah_penduduk)
+            -> SELECT nama_kota, jumlah_penduduk
+            -> FROM kecamatan;
+        Query OK, 10 rows affected (0.103 sec)
+        Records: 10  Duplicates: 0  Warnings: 0
+        
+        MariaDB [tugas_7_mysql]> SELECT * FROM kecamatan_2;
+        +-----------+-----------------+
+        | nama_kota | jumlah_penduduk |
+        +-----------+-----------------+
+        | Jakarta   |         9988495 |
+        | Surabaya  |         2805906 |
+        | Medan     |         2465496 |
+        | Bekasi    |         2381053 |
+        | Bandung   |         2339463 |
+        | Makassar  |         1651146 |
+        | Depok     |         1631951 |
+        | Semarang  |         1621384 |
+        | Tangerang |         1566190 |
+        | Palembang |         1548064 |
+        +-----------+-----------------+
+        10 rows in set (0.002 sec)
+
+    **Note:** Kerjakan latihan diatas secara berurutan. Tidak ada aturan harus menggunakan tipe data apa atau memberi nama kolom apa. Selama data bisa diinput semua, hal tersebut tidak menjadi masalah.
